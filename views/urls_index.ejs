@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>TinyApp</title>
+</head>
+<body>
+    <!-- Add your EJS code here -->
+    <h2>Loop</h2>
+
+    <ul>
+      <% for (url in urls) { %>
+        <li>
+          <%= urls[url]%> - <%= [url] %>
+          <a href="blank.com">temp</a>
+        </li>
+      <% }; %>
+    </ul>
+
+
+</body>
+</html>

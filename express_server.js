@@ -37,12 +37,25 @@ app.post("/urls", (req, res) => {
 
 });
 
-app.get("/urls/:id", (req, res) => {
-  let longURL = urlDatabase[req.params.id];
+app.get("/urls/:randomShort", (req, res) => {
+  let longURL = urlDatabase[req.params.randomShort];
+  // console.log(urlDatabase);
+  // console.log(longURL);
+  // console.log(shortURL);
   //let templateVars = { shortURL: req.params.id,
                        //longURL: longURL };
   //res.render("urls_show", templateVars);
+
   res.redirect(longURL);
+});
+
+app.get("/urls/:id", (req, res) => {
+  let longURL = urlDatabase[req.params.id];
+  console.log("id");
+  let templateVars = { shortURL: req.params.id,
+                       longURL: longURL };
+  res.render("urls_show", templateVars);
+  // res.redirect(longURL);
 });
 
 app.get("/", (req, res) => {

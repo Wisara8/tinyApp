@@ -25,16 +25,17 @@ app.get("/urls/new", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  // console.log(req.body);  // debug statement to see POST parameters
   var randomShort = generateRandomString();
   var short = { "shortURL": randomShort };
-  // console.log(short);
-  // res.send(req.body, short); // Respond with 'Ok' (we will replace this)
   urlDatabase[randomShort] = req.body.longURL;
-  // console.log(urlDatabase);
   res.redirect('/urls/'+ randomShort)
-  // res.send("ok");
+});
 
+app.post("/urls/:id/Delete", (req, res) => {
+  console.log(req.params.id);
+  console.log(urlDatabase[req.params.id]);
+  delete urlDatabase[req.params.id];
+  res.redirect('/urls')
 });
 
 app.get("/urls/:randomShort", (req, res) => {
@@ -51,7 +52,7 @@ app.get("/urls/:randomShort", (req, res) => {
 
 app.get("/urls/:id", (req, res) => {
   let longURL = urlDatabase[req.params.id];
-  console.log("id");
+  // console.log("id");
   let templateVars = { shortURL: req.params.id,
                        longURL: longURL };
   res.render("urls_show", templateVars);

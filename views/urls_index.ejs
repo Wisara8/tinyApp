@@ -5,13 +5,13 @@
 </head>
 <body>
     <!-- Add your EJS code here -->
-    <h2>Loop</h2>
-
     <ul>
-      <% for (url in urls) { %>
+      <% for (key in urls) { %>
         <li>
-          <%= urls[url]%> - <%= [url] %>
-          <a href="blank.com">temp</a>
+          <%= urls[key]%> - <%= key %>
+          <a href= <%= urls[key]%> >Link</a>
+          <form method="POST" action="/urls/<%= key %>/delete"><input type = "submit" value = "Delete"></form>
+
         </li>
       <% }; %>
     </ul>

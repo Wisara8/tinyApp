@@ -32,31 +32,33 @@ app.post("/urls", (req, res) => {
 });
 
 app.post("/urls/:id/Delete", (req, res) => {
-  console.log(req.params.id);
-  console.log(urlDatabase[req.params.id]);
+  // console.log(req.params.id);
+  // console.log(urlDatabase[req.params.id]);
   delete urlDatabase[req.params.id];
   res.redirect('/urls')
 });
 
-app.get("/urls/:randomShort", (req, res) => {
-  let longURL = urlDatabase[req.params.randomShort];
-  // console.log(urlDatabase);
-  // console.log(longURL);
-  // console.log(shortURL);
-  //let templateVars = { shortURL: req.params.id,
-                       //longURL: longURL };
-  //res.render("urls_show", templateVars);
-
-  res.redirect(longURL);
+app.post("/urls/:id", (req, res) => {
+  // console.log(req.params.id);
+  // console.log(urlDatabase[req.params.id]);
+  longURL = req.body.longURL;
+  urlDatabase[req.params.id] = longURL;
+  res.redirect('/urls')
 });
 
 app.get("/urls/:id", (req, res) => {
   let longURL = urlDatabase[req.params.id];
-  // console.log("id");
+
   let templateVars = { shortURL: req.params.id,
                        longURL: longURL };
   res.render("urls_show", templateVars);
-  // res.redirect(longURL);
+
+});
+
+app.get("/urls/:randomShort", (req, res) => {
+  let longURL = urlDatabase[req.params.randomShort];
+
+  res.redirect(longURL);
 });
 
 app.get("/", (req, res) => {

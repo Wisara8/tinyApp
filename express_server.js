@@ -16,14 +16,20 @@ var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
+  // let templateVars = { username: req.cookies["username"] }
 
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase };
+
+  console.log("get URLS");
+  let templateVars = { urls: urlDatabase,
+                       username: req.cookies["username"] };
+
   res.render("urls_index", templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  let templateVars = {username: req.cookies["username"] };
+  res.render("urls_new", templateVars);
 });
 
 app.post("/urls", (req, res) => {
@@ -40,9 +46,10 @@ app.post("/urls/:id/Delete", (req, res) => {
 
 app.post("/login", (req, res) => {
   let user = req.body.username;
-  // console.log(user);
-  res.cookie('user', user);
-  res.redirect('/urls')
+  res.cookie("username", user);
+  let templateVars = { username: user};
+
+  res.redirect('/urls',templateVars)
 });
 
 app.post("/urls/:id", (req, res) => {
@@ -57,7 +64,7 @@ app.get("/urls/:id", (req, res) => {
   let longURL = urlDatabase[req.params.id];
 
   let templateVars = { shortURL: req.params.id,
-                       longURL: longURL };
+                       longURL: longURL, };
   res.render("urls_show", templateVars);
 
 });

@@ -99,10 +99,10 @@ app.post("/urls/:id/Delete", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  let user = req.body.username;
-  res.cookie("username", user);
+  // let user = req.body.username;
+  // res.cookie("username", user);
 
-  res.redirect('/urls')
+  res.redirect('/login')
 });
 
 app.post("/logout", (req, res) => {

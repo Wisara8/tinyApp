@@ -1,12 +1,10 @@
 <h1>Welcome to tinyApp</h1>
-<% if (!user.email) { %>
+<% if (!user ) { %>
    <form action="/login" method="POST" style="margin:150px;">
-    <label for="username">Enter Username:</label>
-    <input id="username" type="text" name="username" placeholder="JohnDoe" style="width: 300px">
-    <input type="submit" value="Submit">
+    <input type="submit" value="Login">
   </form>
  <% } else { %>
-   Welcome <%= user.email %>
+   Welcome <%= user.id %>
   <form action="/logout" method="POST" style="margin:150px;">
     <input type="submit" value="Logout">
   </form>

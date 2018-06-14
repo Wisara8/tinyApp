@@ -9,7 +9,7 @@
     <ul>
       <% for (key in urls) { %>
         <li>
-          <%= urls[key]%> - <%= key %>
+          <%= urls[key].url%> - <%= key %> -<%= urls[key].userID %>
           <a href= "/urls/<%=key%>" >Edit</a>
           <form method="POST" action="/urls/<%= key %>/delete"><input type = "submit" value = "Delete"></form>
 

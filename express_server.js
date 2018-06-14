@@ -18,6 +18,11 @@ var urlDatabase = {
 };
   // let templateVars = { username: req.cookies["username"] }
 
+app.get("/register", (req, res) => {
+
+  res.render("register");
+});
+
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase,
                        username: req.cookies["username"] };
@@ -28,6 +33,11 @@ app.get("/urls", (req, res) => {
 app.get("/urls/new", (req, res) => {
   let templateVars = {username: req.cookies["username"] };
   res.render("urls_new", templateVars);
+});
+
+app.post("/register", (req, res) => {
+
+  res.redirect('/urls')
 });
 
 app.post("/urls", (req, res) => {

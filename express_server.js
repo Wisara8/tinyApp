@@ -16,7 +16,19 @@ var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
-  // let templateVars = { username: req.cookies["username"] }
+
+const users = {
+  "userRandomID": {
+    id: "userRandomID",
+    email: "user@example.com",
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID",
+    email: "user2@example.com",
+    password: "dishwasher-funk"
+  }
+};
 
 app.get("/register", (req, res) => {
 
@@ -36,7 +48,28 @@ app.get("/urls/new", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
+  var randomId = generateRandomString();
+  users[randomId]  = {"id": randomId, "email": req.body.email, "password": req.body.password};
+  const newEmail = req.body.email;
+  const newPassword = req.body.password;
+  let loggedInUser = users[randomId];
 
+  if (newEmail.length === 0 || newPassword.length === 0) {
+    res.status("400").send("Email or Password Blank!");
+    res.reirect('/');
+  }
+
+  for (userID in users) {
+    const user = users[userID];
+    if (user.email === newEmail && user.password === newPassword) {
+
+      res.status("400").send("Email or Password Taken!");
+      res.reirect('/');
+      break;
+    }
+  }
+
+  res.cookie("user_id", randomId);
   res.redirect('/urls')
 });
 

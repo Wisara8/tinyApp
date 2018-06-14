@@ -2,16 +2,15 @@ var express = require("express");
 var cookieParser = require('cookie-parser');
 var app = express();
 var PORT = 8080; // default port 8080
-
 const bodyParser = require("body-parser");
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
-
 app.set("view engine", "ejs");
 
 function generateRandomString() {
  return Math.random().toString(36).substring(2,8);
 }
+
 var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
@@ -31,12 +30,10 @@ const users = {
 };
 
 app.get("/login", (req, res) => {
-
   res.render("login");
 });
 
 app.get("/register", (req, res) => {
-
   res.render("register");
 });
 
@@ -51,21 +48,23 @@ app.get("/urls", (req, res) => {
 app.get("/urls/new", (req, res) => {
   const user = users[req.cookies["user_id"]];
   let templateVars = {user: user };
+
+  if (!user) {
+    res.redirect("login");
+  }
+
   res.render("urls_new", templateVars);
 });
 
 app.post("/register", (req, res) => {
   var randomId = generateRandomString();
-
   const newEmail = req.body.email;
   const newPassword = req.body.password;
-
 
   if (newEmail.length === 0 || newPassword.length === 0) {
     res.status("400").send("Email or Password Blank!");
     res.redirect('/');
   }
-
   for (userID in users) {
     const user = users[userID];
     if (user.email === newEmail && user.password === newPassword) {
@@ -110,11 +109,9 @@ app.post("/login", (req, res) => {
       }
     }
   }
-
   if (!loggedIn) {
     res.status("403").send("Email Not Found!");
   }
-
   res.redirect('/urls')
 });
 
@@ -136,12 +133,10 @@ app.get("/urls/:id", (req, res) => {
                        longURL: longURL,
                        user: user };
   res.render("urls_show", templateVars);
-
 });
 
 app.get("/urls/:randomShort", (req, res) => {
   let longURL = urlDatabase[req.params.randomShort];
-
   res.redirect(longURL);
 });
 

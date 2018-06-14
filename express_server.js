@@ -19,8 +19,6 @@ var urlDatabase = {
   // let templateVars = { username: req.cookies["username"] }
 
 app.get("/urls", (req, res) => {
-
-  console.log("get URLS");
   let templateVars = { urls: urlDatabase,
                        username: req.cookies["username"] };
 
@@ -47,9 +45,13 @@ app.post("/urls/:id/Delete", (req, res) => {
 app.post("/login", (req, res) => {
   let user = req.body.username;
   res.cookie("username", user);
-  let templateVars = { username: user};
 
-  res.redirect('/urls',templateVars)
+  res.redirect('/urls')
+});
+
+app.post("/logout", (req, res) => {
+  res.clearCookie("username");
+  res.redirect('/urls')
 });
 
 app.post("/urls/:id", (req, res) => {
@@ -64,7 +66,8 @@ app.get("/urls/:id", (req, res) => {
   let longURL = urlDatabase[req.params.id];
 
   let templateVars = { shortURL: req.params.id,
-                       longURL: longURL, };
+                       longURL: longURL,
+                       username: req.cookies["username"] };
   res.render("urls_show", templateVars);
 
 });

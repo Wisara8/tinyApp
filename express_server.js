@@ -18,7 +18,6 @@ function filterLinks(oldDatabase, ID) {
       filterDatabase[key] = oldDatabase[key]
     }
   }
-  console.log(filterDatabase)
   return filterDatabase;
 }
 
@@ -167,8 +166,7 @@ app.get("/urls/:id", (req, res) => {
   }
 });
 
-app.get("/urls/:randomShort", (req, res) => {
-  let user = [req.cookies["user_id"]];
+app.get("/u/:randomShort", (req, res) => {
   let longURL = urlDatabase[req.params.randomShort].url;
   res.redirect(longURL);
 });

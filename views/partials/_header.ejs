@@ -1,18 +1,24 @@
-<h1>Welcome to tinyApp</h1>
+<div class="container">
+  <h1>Welcome to TinyApp</h1>
+</div>
+
 <% if (!user ) { %>
-
-   <form action="/login" method="GET" style="margin:150px;">
+  <div class="form-group">
+   <form class="form" action="/login" method="GET" style="margin:150px;">
     <input type="submit" value="Login">
-  </form>
-   <form action="/register" method="GET" style="margin:150px;">
-    <input type="submit" value="Register">
-  </form>
-
+    </form>
+     <form class="form" action="/register" method="GET" style="margin:150px;">
+      <input type="submit" value="Register">
+    </form>
+  </div>
  <% } else { %>
-   Welcome <%= user.email %>
-  <form action="/logout" method="POST" style="margin:150px;">
-    <input type="submit" value="Logout">
-  </form>
+  <div class="container">
+    Welcome <%= user.email %>
+    <form class="form" action="/logout" method="POST">
+      <input type="submit" value="Logout">
+    </form>
+  </div>
+
 <% } %>
 
 

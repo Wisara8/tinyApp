@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   <title>TinyApp</title>
 </head>
 <body>
@@ -9,17 +10,47 @@
     <% if (!user) { %>
       <h3>Please login to see your links</h3>
     <% } else { %>
-      <form method="GET" action="/urls/new"><input type = "submit" value = "Create"></form>
-      <ul>
+    <br></br><br></br>
+    <div class="container">
+      <form class="form" method="GET" action="/urls/new"><input type = "submit" value = "Create"></form>
+        <table class="table">
+    <thead>
+      <tr>
+        <th>
+          LongURL
+        </th>
+        <th>
+          shortURL
+        </th>
+        <th>
+          userID
+        </th>
+        <th>
+          Actions
+        </th>
+        <th>
+          Actions
+        </th>
+      </tr>
+    </thead>
+    <tbody>
         <% for (key in urls) { %>
-          <li>
-            <%= urls[key].url%> - <%= key %> -<%= urls[key].userID %>
-            <a href= "/urls/<%=key%>" >Edit</a>
-            <form method="POST" action="/urls/<%= key %>/delete"><input type = "submit" value = "Delete"></form>
-          </li>
+          <tr>
+            <td><%= urls[key].url%></td>
+            <td><%= key %></td>
+            <td><%= urls[key].userID %></td>
+            <td>
+              <a href= "/urls/<%=key%>" >Edit</a>
+            </td>
+            <td>
+            <form method="POST" form="form" action="/urls/<%= key %>/delete"><input type = "submit" value = "Delete"></form>
+            </td>
+          </tr>
         <% }; %>
-      </ul>
     <% } %>
+    </tbody>
+  </table>
+</div>
 
 </body>
 </html>

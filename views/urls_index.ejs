@@ -6,10 +6,10 @@
 <body>
     <!-- Add your EJS code here -->
     <% include partials/_header %>
-    <h2> Index URL page </h2>
     <% if (!user) { %>
       <h3>Please login to see your links</h3>
     <% } else { %>
+      <form method="GET" action="/urls/new"><input type = "submit" value = "Create"></form>
       <ul>
         <% for (key in urls) { %>
           <li>

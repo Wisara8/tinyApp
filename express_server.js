@@ -69,10 +69,10 @@ app.get("/urls", (req, res) => {
 });
 
 app.get("/urls/new", (req, res) => {
-  const user = req.session.user_id;
+  const userID = req.session.user_id;
+  const user = users[userID];
   let templateVars = {user: user,
                       urls: urlDatabase };
-
   if (!user) {
     res.redirect("login");
   }
@@ -102,7 +102,6 @@ app.post("/register", (req, res) => {
   const hashedPassword = bcrypt.hashSync(password, 10);
   users[randomId]  = {"id": randomId, "email": req.body.email, "password": hashedPassword};
   let loggedInUser = users[randomId];
-  //res.cookie("user_id", loggedInUser.id);
   req.session.user_id = loggedInUser.id;
   res.redirect('/urls')
 });
@@ -111,7 +110,7 @@ app.post("/urls", (req, res) => {
   var randomShort = generateRandomString();
   var short = { "shortURL": randomShort };
   let user = req.session.user_id;
-  urlDatabase[randomShort].url = req.body.longURL;
+  urlDatabase[randomShort] = {'userID': user, 'url': req.body.longURL};
   res.redirect('/urls/'+ randomShort)
 });
 
@@ -157,16 +156,21 @@ app.post("/logout", (req, res) => {
 
 app.post("/urls/:id", (req, res) => {
   let longURL = req.body.longURL;
-  let user = req.session.user_id;
+  // let user = req.session.user_id;
   urlDatabase[req.params.id].url = longURL;
   res.redirect('/urls')
 });
 
 app.get("/urls/:id", (req, res) => {
-  const user = req.session.user_id;
-  if (!user || user != urlDatabase[req.params.id].userID) {
-    res.redirect("/login");
-  } else {
+  const userID = req.session.user_id;
+  const user = users[userID];
+  if (!user ) {
+    // res.redirect("/login");
+    res.status(403).send("Please Login");
+  }
+  if (userID != urlDatabase[req.params.id].userID)
+    res.status(403).send("Not your link!");
+  else {
   let longURL = urlDatabase[req.params.id].url;
   let templateVars = { shortURL: req.params.id,
                        longURL: longURL,
@@ -182,7 +186,7 @@ app.get("/u/:randomShort", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.end("Hello!");
+  res.redirect("/urls");
 });
 
 app.get("/urls.json", (req, res) => {

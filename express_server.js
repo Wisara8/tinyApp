@@ -11,6 +11,17 @@ function generateRandomString() {
  return Math.random().toString(36).substring(2,8);
 }
 
+function filterLinks(oldDatabase, ID) {
+  filterDatabase = {};
+  for (key in oldDatabase) {
+    if (ID === oldDatabase[key].userID) {
+      filterDatabase[key] = oldDatabase[key]
+    }
+  }
+  console.log(filterDatabase)
+  return filterDatabase;
+}
+
 var urlDatabase = {
     "b2xVn2": {
       url: "http://www.lighthouselabs.ca",
@@ -46,8 +57,10 @@ app.get("/register", (req, res) => {
 app.get("/urls", (req, res) => {
   const userID = req.cookies["user_id"];
   const user = users[userID];
-  let templateVars = { urls: urlDatabase,
+  let filtered = filterLinks(urlDatabase, userID);
+  let templateVars = { urls: filtered,
                        user: user };
+
   res.render("urls_index", templateVars);
 });
 

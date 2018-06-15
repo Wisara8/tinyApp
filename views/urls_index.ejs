@@ -7,18 +7,19 @@
     <!-- Add your EJS code here -->
     <% include partials/_header %>
     <h2> Index URL page </h2>
-
-    <ul>
-      <% for (key in urls) { %>
-        <li>
-          <%= urls[key].url%> - <%= key %> -<%= urls[key].userID %>
-          <a href= "/urls/<%=key%>" >Edit</a>
-          <form method="POST" action="/urls/<%= key %>/delete"><input type = "submit" value = "Delete"></form>
-
-        </li>
-      <% }; %>
-    </ul>
-
+    <% if (!user) { %>
+      <h3>Please login to see your links</h3>
+    <% } else { %>
+      <ul>
+        <% for (key in urls) { %>
+          <li>
+            <%= urls[key].url%> - <%= key %> -<%= urls[key].userID %>
+            <a href= "/urls/<%=key%>" >Edit</a>
+            <form method="POST" action="/urls/<%= key %>/delete"><input type = "submit" value = "Delete"></form>
+          </li>
+        <% }; %>
+      </ul>
+    <% } %>
 
 </body>
 </html>

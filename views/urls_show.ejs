@@ -8,15 +8,16 @@
 
     <% include ./partials/_header %>
     <h2> Show URL page </h2>
-
-    <h1>
-          shortURL - <%= shortURL %>
-    </h1>
-
-    <form action="/urls/<%=shortURL%>" method="POST" style="margin:150px;">
-      <input id="longURL" type="text" name="longURL" placeholder="<%= longURL %>" style="width: 300px">
-      <input type="submit" value="Update">
-    </form>
-
+    <% if (!user) { %>
+      <h3>Please login</h3>
+    <% } else { %>
+      <h1>
+            shortURL - <%= shortURL %>
+      </h1>
+      <form action="/urls/<%=shortURL%>" method="POST" style="margin:150px;">
+        <input id="longURL" type="text" name="longURL" placeholder="<%= longURL %>" style="width: 300px">
+        <input type="submit" value="Update">
+      </form>
+    <% } %>
 </body>
 </html>
